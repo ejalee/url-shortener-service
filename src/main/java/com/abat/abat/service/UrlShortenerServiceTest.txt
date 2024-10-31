@@ -1,0 +1,115 @@
+// package com.abat.abat.service;
+
+// import com.abat.abat.model.ShortUrl;
+// import com.abat.abat.repository.ShortUrlRepository;
+// import org.junit.jupiter.api.BeforeEach;
+// import org.junit.jupiter.api.Test;
+// import org.mockito.InjectMocks;
+// import org.mockito.Mock;
+// import org.mockito.MockitoAnnotations;
+
+// import java.time.LocalDateTime;
+// import java.util.Optional;
+
+// import static org.junit.jupiter.api.Assertions.*;
+// import static org.mockito.Mockito.*;
+
+// class UrlShortenerServiceTest {
+
+//     @Mock
+//     private ShortUrlRepository repository;
+
+//     @InjectMocks
+//     private UrlShortenerService urlShortenerService;
+
+//     @BeforeEach
+//     void setUp() {
+//         MockitoAnnotations.openMocks(this);
+//     }
+
+//     @Test
+//     void createShortUrl_WithCustomId_ShouldReturnShortUrl() {
+//         String customId = "custom123";
+//         String originalUrl = "https://abat.de";
+//         ShortUrl shortUrl = new ShortUrl(customId, originalUrl, null);
+
+//         when(repository.existsById(customId)).thenReturn(false);
+//         when(repository.save(any(ShortUrl.class))).thenReturn(shortUrl);
+
+//         ShortUrl result = urlShortenerService.createShortUrl(originalUrl, Optional.of(customId), Optional.empty());
+
+//         assertNotNull(result);
+//         assertEquals(customId, result.getId());
+//         assertEquals(originalUrl, result.getOriginalUrl());
+//     }
+
+//     @Test
+//     void createShortUrl_WithExistingCustomId_ShouldThrowException() {
+//         String customId = "custom123";
+//         String originalUrl = "https://abat.de";
+
+//         when(repository.existsById(customId)).thenReturn(true);
+
+//         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+//             urlShortenerService.createShortUrl(originalUrl, Optional.of(customId), Optional.empty());
+//         });
+
+//         assertEquals("ID already in use.", exception.getMessage());
+//     }
+
+//     @Test
+//     void createShortUrl_WithTTL_ShouldSetExpirationDate() {
+//         String originalUrl = "https://abat.de";
+//         String generatedId = "generatedId";
+//         long ttl = 3600L; // 1 hour TTL
+//         LocalDateTime expirationDate = LocalDateTime.now().plusSeconds(ttl);
+
+//         ShortUrl shortUrl = new ShortUrl(generatedId, originalUrl, expirationDate);
+//         when(repository.existsById(anyString())).thenReturn(false);
+//         when(repository.save(any(ShortUrl.class))).thenReturn(shortUrl);
+
+//         ShortUrl result = urlShortenerService.createShortUrl(originalUrl, Optional.empty(), Optional.of(ttl));
+
+//         assertNotNull(result);
+//         assertEquals(originalUrl, result.getOriginalUrl());
+//         assertNotNull(result.getExpirationDate());
+//         assertTrue(result.getExpirationDate().isAfter(LocalDateTime.now()));
+//     }
+
+//     @Test
+//     void getOriginalUrl_WithValidId_ShouldReturnUrl() {
+//         String id = "valid123";
+//         String originalUrl = "https://abat.de";
+//         ShortUrl shortUrl = new ShortUrl(id, originalUrl, LocalDateTime.now().plusDays(1));
+
+//         when(repository.findByIdAndExpirationDateAfter(eq(id), any(LocalDateTime.class)))
+//             .thenReturn(Optional.of(shortUrl));
+
+//         Optional<ShortUrl> result = urlShortenerService.getOriginalUrl(id);
+
+//         assertTrue(result.isPresent());
+//         assertEquals(originalUrl, result.get().getOriginalUrl());
+//     }
+
+//     @Test
+//     void getOriginalUrl_WithExpiredId_ShouldReturnEmpty() {
+//         String id = "expired123";
+
+//         when(repository.findByIdAndExpirationDateAfter(eq(id), any(LocalDateTime.class)))
+//             .thenReturn(Optional.empty());
+
+//         Optional<ShortUrl> result = urlShortenerService.getOriginalUrl(id);
+
+//         assertFalse(result.isPresent());
+//     }
+
+//     @Test
+//     void deleteShortUrl_ShouldCallRepositoryDelete() {
+//         String id = "toDelete";
+
+//         urlShortenerService.deleteShortUrl(id);
+
+//         verify(repository, times(1)).deleteById(id);
+//     }
+// }
+
