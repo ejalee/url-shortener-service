@@ -1,6 +1,6 @@
 # Set Up the Project Using Spring Initializr
 
-Went to `https://start.spring.io` and configured the project.
+Configured the project via `https://start.spring.io` and downloaded the zip file.
 
 ## Dependencies
 
@@ -10,7 +10,7 @@ Went to `https://start.spring.io` and configured the project.
 
 ## Run the App
 
-- Open the terminal and navigate to the project directory.
+- Open the terminal and navigate to the project directory of the zip file downloaded from the link above.
 - Run `mvn spring-boot:run` to start the application.
 
 ## API Tests
