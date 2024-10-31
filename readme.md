@@ -29,4 +29,5 @@ Using tools like curl or Postman to test the endpoints:
 ```curl -X GET "http://localhost:8080/api/urls/{id}"```
 
 3. DELETE `/api/urls/{id}` - Deletes a short URL by ID.
+
 ```curl -X DELETE "http://localhost:8080/api/urls/{id}"```
