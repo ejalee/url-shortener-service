@@ -21,5 +21,18 @@ public class ShortUrl {
         this.expirationDate = expirationDate;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public String getOriginalUrl() {
+        return originalUrl;
+    }
+
+    public LocalDateTime getExpirationDate() {
+        return expirationDate;
+    }
+    
+
     // Getters and Setters
 }
